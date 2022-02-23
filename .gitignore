@@ -4,3 +4,5 @@ main/*
 net_kornblith/*
 past_code/*
 cifar-10-python.tar.gz
+*.ipynb_checkpoints*
+*__pycache__*
