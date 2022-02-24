@@ -6,3 +6,4 @@ past_code/*
 cifar-10-python.tar.gz
 *.ipynb_checkpoints*
 *__pycache__*
+figures/*
