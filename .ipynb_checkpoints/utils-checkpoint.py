@@ -22,6 +22,7 @@ class LinCKA(nn.Module):
     def linear_HSIC(self, X, Y):
         L_X = torch.matmul(X, X.T)
         L_Y = torch.matmul(Y, Y.T)
+        print(torch.norm(self.centering(L_X)-self.centering(L_Y)))
         return torch.sum(self.centering(L_X) * self.centering(L_Y))
 
     def linear_CKA(self,X, Y):
@@ -35,3 +36,30 @@ class LinCKA(nn.Module):
         if len(X) != self.n:
             self.resetK(len(X))
         return self.linear_CKA(X,Y)
+    
+class LinCKA2(nn.Module):
+    def __init__(self):
+        super(LinCKA2, self).__init__()
+
+    def linear_HSIC(self, X, Y):
+        L_X = torch.matmul(X, X.T)
+        L_Y = torch.matmul(Y, Y.T)
+        print(torch.norm(L_X-L_Y))
+        return torch.sum(L_X * L_Y)
+
+    def forward(self, X,Y):
+        n = len(X)
+        
+        unit = torch.ones([n, n])
+        I = torch.eye(n)
+        H = I - unit / n
+        H = H.cuda()
+        
+        X = torch.matmul(H,X)
+        Y = torch.matmul(H,Y)
+        
+        HSIC_XY = self.linear_HSIC(X,Y)
+        HSIC_XX = self.linear_HSIC(X,X)
+        HSIC_YY = self.linear_HSIC(Y,Y)
+        
+        return HSIC_XY / (torch.sqrt(HSIC_XX)*torch.sqrt(HSIC_YY))
