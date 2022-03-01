@@ -22,7 +22,7 @@ class LinCKA(nn.Module):
     def linear_HSIC(self, X, Y):
         L_X = torch.matmul(X, X.T)
         L_Y = torch.matmul(Y, Y.T)
-        print(torch.norm(self.centering(L_X)-self.centering(L_Y)))
+#         print(torch.norm(self.centering(L_X)-self.centering(L_Y)))
         return torch.sum(self.centering(L_X) * self.centering(L_Y))
 
     def linear_CKA(self,X, Y):
@@ -44,7 +44,7 @@ class LinCKA2(nn.Module):
     def linear_HSIC(self, X, Y):
         L_X = torch.matmul(X, X.T)
         L_Y = torch.matmul(Y, Y.T)
-        print(torch.norm(L_X-L_Y))
+#         print(torch.norm(L_X-L_Y))
         return torch.sum(L_X * L_Y)
 
     def forward(self, X,Y):
